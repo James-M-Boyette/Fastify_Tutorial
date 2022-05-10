@@ -8,6 +8,11 @@ import fastifyJwt from "@fastify/jwt";
 
 export const server = Fastify();
 
+declare module "fastify" {
+    export interface FastifyInstance {
+        authenticate: any;
+    }
+}
 
 const port = 3000;
 
