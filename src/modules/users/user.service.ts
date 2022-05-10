@@ -15,3 +15,12 @@ export async function createUser(input: CreateUserInput){
 
     return user
 }
+
+export async function findUserByEmail(email: string) {
+    // Note: Prisma only has "findFirst", "findMany", & "findUnique" ... not simply "find"
+    return prisma.user.findUnique({
+        where: {
+            email,
+        }
+    })
+}

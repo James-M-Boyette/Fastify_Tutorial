@@ -1,11 +1,29 @@
 // console.log('Whazzap from Fastify_tutorial ...')
 
-import Fastify from "fastify";
+import Fastify, { FastifyReply, FastifyRequest } from "fastify";
 import userRoutes from "./modules/users/user.route";
 import { userSchemas } from "./modules/users/user.schema";
+// import fastifyJwt from "fastify-jwt";
+import fastifyJwt from "@fastify/jwt";
 
-const server = Fastify();
+export const server = Fastify();
+
+
 const port = 3000;
+
+server.register(fastifyJwt, {
+    secret: "asdf3ldskaj987asdthasd9087kh", // random inputs from me
+});
+
+server.decorate(
+    "authenticate", 
+    async (request: FastifyRequest, reply: FastifyReply) => {
+        try {
+            await request.jwtVerify();
+        } catch (e) {
+            return reply.send(e);
+        }
+})
 
 server.get('/healthcheck', async function(){
     // 16:38; Unlike Express, Fastify *doesn't* require you to call 'response' or use .send ... function(request, response) etc

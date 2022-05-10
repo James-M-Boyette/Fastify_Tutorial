@@ -22,10 +22,26 @@ const createUserResponseSchema = z.object({
     ...userCore,
 })
 
+const loginSchema = z.object({
+    email: z.string({
+        required_error: 'Email is required',
+        invalid_type_error: 'Email must be a string'
+    }).email(),
+    password: z.string(),
+})
+
+const loginResponseSchema = z.object({
+    accessToken: z.string(),
+})
+
 export type CreateUserInput = z.infer<typeof createUserSchema>;
 // Note: 'infer' is a type, rather than a function (so, not ".infer()")
+
+export type LoginInput = z.infer<typeof loginSchema>;
 
 export const {schemas: userSchemas, $ref} = buildJsonSchemas({
     createUserSchema,
     createUserResponseSchema,
+    loginSchema,
+    loginResponseSchema,
 })
