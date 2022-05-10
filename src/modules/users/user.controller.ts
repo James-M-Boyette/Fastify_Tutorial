@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { verifyPassword } from "../../utils/hash";
 import { CreateUserInput, LoginInput } from "./user.schema";
-import { createUser, findUserByEmail } from "./user.service";
+import { createUser, findUserByEmail, findUsers } from "./user.service";
 import { server } from "../../app";
 
 export async function registerUserHandler(
@@ -57,4 +57,9 @@ export async function loginHandler(
     // generate access token
         
     // respond
+}
+
+export async function getUsersHandler() {
+    const users = await findUsers();
+    return users;
 }
