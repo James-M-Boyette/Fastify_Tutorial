@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { CreateProductInput } from "./product.schema";
-import { createProduct } from "./product.service";
+import { CreateProductInput, productSchemas } from "./product.schema";
+import { createProduct, getProducts } from "./product.service";
 
 export async function createProductHandler(
     request: FastifyRequest <{
@@ -12,4 +12,10 @@ export async function createProductHandler(
             ownerId: request.user.id,
         })
         return product;
+    }
+
+export async function getProductsHandler(){
+    const products = await getProducts();
+
+    return products
     }
