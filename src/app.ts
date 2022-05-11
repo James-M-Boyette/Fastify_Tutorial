@@ -7,6 +7,9 @@ import { userSchemas } from "./modules/users/user.schema";
 import { productSchemas } from "./modules/products/product.schema";
 // import fastifyJwt from "fastify-jwt";
 import fastifyJwt from "@fastify/jwt";
+import swagger from "@fastify/swagger";
+import { withRefResolver } from "fastify-zod";
+import { version } from "../package.json"
 
 export const server = Fastify();
 
@@ -56,6 +59,21 @@ async function main() {
 
     server.register(userRoutes, {prefix: 'api/users'});
     server.register(productRoutes, {prefix: 'api/products'});
+    // server.register(
+    //     swagger, 
+    //     withRefResolver({
+    //         routePrefix: '/docs',
+    //         exposeRoute: true,
+    //         staticCSP: true,
+    //         openapi: {
+    //             info:{
+    //                 title: 'Fastify API',
+    //                 description: 'API for some products',
+    //                 version,
+    //             }
+    //         }
+    //     })
+    // );
 
     try {
         await server.listen(port, '0.0.0.0'); // '0.0.0.0' is a docker-specific addition, as it expects *this* to be the local host
