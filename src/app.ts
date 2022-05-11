@@ -3,6 +3,7 @@
 import Fastify, { FastifyReply, FastifyRequest } from "fastify";
 import userRoutes from "./modules/users/user.route";
 import { userSchemas } from "./modules/users/user.schema";
+import { productSchemas } from "./modules/product/product.schema";
 // import fastifyJwt from "fastify-jwt";
 import fastifyJwt from "@fastify/jwt";
 
@@ -11,6 +12,16 @@ export const server = Fastify();
 declare module "fastify" {
     export interface FastifyInstance {
         authenticate: any;
+    }
+}
+
+declare module "@fastify/jwt" {
+    export interface FastifyJWT {
+        user: {
+            "id": number,
+            "email": string,
+            "name": string,
+        };
     }
 }
 
@@ -36,7 +47,7 @@ server.get('/healthcheck', async function(){
 });
 
 async function main() {
-    for(const schema of userSchemas){
+    for(const schema of [...userSchemas, ...productSchemas]){
         server.addSchema(schema);
     };
 
