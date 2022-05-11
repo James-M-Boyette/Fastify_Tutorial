@@ -2,8 +2,9 @@
 
 import Fastify, { FastifyReply, FastifyRequest } from "fastify";
 import userRoutes from "./modules/users/user.route";
+import productRoutes from "./modules/products/product.route";
 import { userSchemas } from "./modules/users/user.schema";
-import { productSchemas } from "./modules/product/product.schema";
+import { productSchemas } from "./modules/products/product.schema";
 // import fastifyJwt from "fastify-jwt";
 import fastifyJwt from "@fastify/jwt";
 
@@ -54,6 +55,7 @@ async function main() {
     // Note: need to register schemas before routes, so we've added them above
 
     server.register(userRoutes, {prefix: 'api/users'});
+    server.register(productRoutes, {prefix: 'api/products'});
 
     try {
         await server.listen(port, '0.0.0.0'); // '0.0.0.0' is a docker-specific addition, as it expects *this* to be the local host
